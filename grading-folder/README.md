@@ -279,7 +279,7 @@ MIT License - feel free to use for learning purposes.
 ## 📧 Contact
 
 For questions or feedback:
-- Email: student@example.com
+- Email: Vincent@directed.dev
 - GitHub: [@xfince](https://github.com/xfince)
 
 ---
