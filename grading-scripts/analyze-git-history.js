@@ -19,7 +19,7 @@ function runGitCommand(command) {
 }
 
 function analyzeGitHistory() {
-  console.log('📜 Analyzing Git History...\n');
+  console.error('📜 Analyzing Git History...\n');
 
   const analysis = {
     timestamp: new Date().toISOString(),
@@ -50,19 +50,19 @@ function analyzeGitHistory() {
 
   // Check if Git repo
   if (!fs.existsSync('.git')) {
-    console.log('❌ Not a Git repository');
+    console.error('❌ Not a Git repository');
     analysis.justification = 'Not a Git repository';
     console.log(JSON.stringify(analysis, null, 2));
     return analysis;
   }
 
   analysis.is_git_repo = true;
-  console.log('✅ Git repository detected\n');
+  console.error('✅ Git repository detected\n');
 
   // Get total commits
   const commitCount = runGitCommand('git rev-list --count HEAD');
   analysis.total_commits = parseInt(commitCount) || 0;
-  console.log(`📊 Total Commits: ${analysis.total_commits}`);
+  console.error(`📊 Total Commits: ${analysis.total_commits}`);
 
   if (analysis.total_commits === 0) {
     analysis.justification = 'No commits found';
@@ -75,7 +75,7 @@ function analyzeGitHistory() {
   if (commitDates) {
     const dates = commitDates.split('\n').filter(d => d);
     analysis.unique_commit_days = new Set(dates).size;
-    console.log(`📅 Unique Commit Days: ${analysis.unique_commit_days}`);
+    console.error(`📅 Unique Commit Days: ${analysis.unique_commit_days}`);
   }
 
   // Calculate days since last commit
@@ -84,7 +84,7 @@ function analyzeGitHistory() {
     const lastCommitTimestamp = parseInt(lastCommitDate);
     const now = Math.floor(Date.now() / 1000);
     analysis.days_since_last_commit = parseFloat(((now - lastCommitTimestamp) / 86400).toFixed(1));
-    console.log(`⏰ Days Since Last Commit: ${analysis.days_since_last_commit}`);
+    console.error(`⏰ Days Since Last Commit: ${analysis.days_since_last_commit}`);
   }
 
   // Calculate average days between commits
@@ -100,7 +100,7 @@ function analyzeGitHistory() {
         totalDiff += timestamps[i] - timestamps[i + 1];
       }
       analysis.avg_days_between_commits = parseFloat(((totalDiff / (timestamps.length - 1)) / 86400).toFixed(2));
-      console.log(`📈 Avg Days Between Commits: ${analysis.avg_days_between_commits}`);
+      console.error(`📈 Avg Days Between Commits: ${analysis.avg_days_between_commits}`);
     }
   }
 
@@ -114,10 +114,10 @@ function analyzeGitHistory() {
   } else {
     analysis.commit_frequency = 'irregular';
   }
-  console.log(`🔄 Commit Frequency: ${analysis.commit_frequency}\n`);
+  console.error(`🔄 Commit Frequency: ${analysis.commit_frequency}\n`);
 
   // Analyze commit messages
-  console.log('💬 Analyzing Commit Messages...');
+  console.error('💬 Analyzing Commit Messages...');
   const commitMessages = runGitCommand('git log --format=%s');
   if (commitMessages) {
     const messages = commitMessages.split('\n').filter(m => m);
@@ -146,12 +146,12 @@ function analyzeGitHistory() {
       }
     });
 
-    console.log(`   Meaningful: ${analysis.commit_message_quality.meaningful}`);
-    console.log(`   Vague: ${analysis.commit_message_quality.vague}\n`);
+    console.error(`   Meaningful: ${analysis.commit_message_quality.meaningful}`);
+    console.error(`   Vague: ${analysis.commit_message_quality.vague}\n`);
   }
 
   // Detect large commits
-  console.log('🔍 Checking for Large Commits...');
+  console.error('🔍 Checking for Large Commits...');
   const commitStats = runGitCommand('git log --shortstat --format="%H"');
   if (commitStats) {
     const lines = commitStats.split('\n');
@@ -163,7 +163,7 @@ function analyzeGitHistory() {
         }
       }
     }
-    console.log(`   Large Commits (>50 files): ${analysis.large_commits}\n`);
+    console.error(`   Large Commits (>50 files): ${analysis.large_commits}\n`);
   }
 
   // Get branches
@@ -176,14 +176,14 @@ function analyzeGitHistory() {
       !b.includes('master') &&
       !b.includes('HEAD')
     ).length;
-    console.log(`🌿 Branches: ${analysis.branches.total} (${analysis.branches.non_main} non-main)`);
+    console.error(`🌿 Branches: ${analysis.branches.total} (${analysis.branches.non_main} non-main)`);
   }
 
   // Get merge commits
   const mergeCommits = runGitCommand('git log --merges --format=%s');
   if (mergeCommits) {
     analysis.merge_commits = mergeCommits.split('\n').filter(m => m).length;
-    console.log(`🔀 Merge Commits: ${analysis.merge_commits}\n`);
+    console.error(`🔀 Merge Commits: ${analysis.merge_commits}\n`);
   }
 
   // Get first and last commit messages
@@ -212,7 +212,7 @@ function analyzeGitHistory() {
   }
 
   // Calculate score recommendation
-  console.log('📊 Calculating Score...');
+  console.error('📊 Calculating Score...');
   let score = 1.0; // Start with Poor
   const reasons = [];
 
@@ -284,10 +284,10 @@ function analyzeGitHistory() {
   analysis.score_recommendation = parseFloat(score.toFixed(2));
   analysis.justification = reasons.join('; ');
 
-  console.log(`\n✨ Score Recommendation: ${analysis.score_recommendation}/4.0`);
-  console.log(`📝 Justification: ${analysis.justification}\n`);
+  console.error(`\n✨ Score Recommendation: ${analysis.score_recommendation}/4.0`);
+  console.error(`📝 Justification: ${analysis.justification}\n`);
 
-  // Output JSON
+  // Output JSON (ONLY JSON to stdout)
   console.log(JSON.stringify(analysis, null, 2));
 
   return analysis;

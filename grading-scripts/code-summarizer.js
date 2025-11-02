@@ -189,7 +189,7 @@ function summarizeFile(filePath) {
 }
 
 function summarizeCode() {
-  console.log('📝 Summarizing Code for GPT Analysis...\n');
+  console.error('📝 Summarizing Code for GPT Analysis...\n');
 
   const summaries = {
     timestamp: new Date().toISOString(),
@@ -214,7 +214,7 @@ function summarizeCode() {
   };
 
   // Summarize Frontend
-  console.log('🎨 Analyzing Frontend...');
+  console.error('🎨 Analyzing Frontend...');
   const frontendDirs = [
     'grading-folder/frontend/components',
     'grading-folder/frontend/pages',
@@ -249,11 +249,11 @@ function summarizeCode() {
     }
   });
 
-  console.log(`   Components: ${summaries.frontend.components.length}`);
-  console.log(`   Pages: ${summaries.frontend.pages.length}\n`);
+  console.error(`   Components: ${summaries.frontend.components.length}`);
+  console.error(`   Pages: ${summaries.frontend.pages.length}\n`);
 
   // Summarize Backend
-  console.log('⚙️  Analyzing Backend...');
+  console.error('⚙️  Analyzing Backend...');
   const backendDirs = {
     routes: 'grading-folder/backend/routes',
     models: 'grading-folder/backend/models',
@@ -280,13 +280,13 @@ function summarizeCode() {
     }
   });
 
-  console.log(`   Routes: ${summaries.backend.routes.length}`);
-  console.log(`   Models: ${summaries.backend.models.length}`);
-  console.log(`   Controllers: ${summaries.backend.controllers.length}`);
-  console.log(`   Middleware: ${summaries.backend.middleware.length}\n`);
+  console.error(`   Routes: ${summaries.backend.routes.length}`);
+  console.error(`   Models: ${summaries.backend.models.length}`);
+  console.error(`   Controllers: ${summaries.backend.controllers.length}`);
+  console.error(`   Middleware: ${summaries.backend.middleware.length}\n`);
 
   // Summarize Documentation
-  console.log('📚 Analyzing Documentation...');
+  console.error('📚 Analyzing Documentation...');
   const docFiles = [
     'grading-folder/README.md',
     'grading-folder/PLANNING.md',
@@ -310,20 +310,20 @@ function summarizeCode() {
     }
   });
 
-  console.log(`   Documentation files: ${summaries.documentation.length}\n`);
+  console.error(`   Documentation files: ${summaries.documentation.length}\n`);
 
   // Print statistics
-  console.log('📊 Code Statistics:');
-  console.log(`   Total Files: ${summaries.statistics.total_files}`);
-  console.log(`   Total Lines: ${summaries.statistics.total_lines}`);
-  console.log(`   Languages: ${Object.keys(summaries.statistics.languages).join(', ')}\n`);
+  console.error('📊 Code Statistics:');
+  console.error(`   Total Files: ${summaries.statistics.total_files}`);
+  console.error(`   Total Lines: ${summaries.statistics.total_lines}`);
+  console.error(`   Languages: ${Object.keys(summaries.statistics.languages).join(', ')}\n`);
 
   // Calculate summary size
   const jsonSize = JSON.stringify(summaries).length;
-  console.log(`💾 Summary Size: ${(jsonSize / 1024).toFixed(2)} KB`);
-  console.log(`📏 Estimated Tokens: ~${Math.ceil(jsonSize / 4)}\n`);
+  console.error(`💾 Summary Size: ${(jsonSize / 1024).toFixed(2)} KB`);
+  console.error(`📏 Estimated Tokens: ~${Math.ceil(jsonSize / 4)}\n`);
 
-  // Output JSON
+  // Output JSON (ONLY JSON to stdout)
   console.log(JSON.stringify(summaries, null, 2));
 
   return summaries;

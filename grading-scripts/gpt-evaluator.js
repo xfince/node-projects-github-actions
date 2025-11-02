@@ -13,7 +13,7 @@ const openai = new OpenAI({
 });
 
 async function evaluateWithGPT() {
-  console.log('🤖 Starting GPT-4o Evaluation...\n');
+  console.error('🤖 Starting GPT-4o Evaluation...\n');
 
   if (!process.env.OPENAI_API_KEY) {
     console.error('❌ OPENAI_API_KEY environment variable not set');
@@ -54,7 +54,7 @@ async function evaluateWithGPT() {
     c.evaluation_method === 'hybrid'
   );
 
-  console.log(`📋 Evaluating ${gptCriteria.length} criteria with GPT-4o\n`);
+  console.error(`📋 Evaluating ${gptCriteria.length} criteria with GPT-4o\n`);
 
   // Batch criteria into groups to minimize API calls
   const batches = [
@@ -77,18 +77,18 @@ async function evaluateWithGPT() {
 
   for (let i = 0; i < batches.length; i++) {
     const batch = batches[i];
-    console.log(`📦 Processing Batch ${i + 1}/${batches.length} (${batch.length} criteria)...`);
+    console.error(`📦 Processing Batch ${i + 1}/${batches.length} (${batch.length} criteria)...`);
 
     for (const criterion of batch) {
       try {
-        console.log(`   Evaluating: ${criterion.title}`);
+        console.error(`   Evaluating: ${criterion.title}`);
         
         const result = await evaluateCriterion(criterion, codeSummaries, unitTestResults, rubric);
         evaluation.criteria_evaluations[criterion.id] = result;
         evaluation.metadata.total_api_calls++;
         evaluation.metadata.total_tokens_used += result.tokens_used || 0;
 
-        console.log(`   ✅ Score: ${result.score}/${criterion.max_points}`);
+        console.error(`   ✅ Score: ${result.score}/${criterion.max_points}`);
         
         // Small delay to avoid rate limits
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -103,18 +103,18 @@ async function evaluateWithGPT() {
       }
     }
     
-    console.log();
+    console.error();
   }
 
   evaluation.metadata.evaluation_time_ms = Date.now() - startTime;
 
-  console.log('✨ GPT Evaluation Complete!\n');
-  console.log(`📊 Statistics:`);
-  console.log(`   Total API Calls: ${evaluation.metadata.total_api_calls}`);
-  console.log(`   Total Tokens: ${evaluation.metadata.total_tokens_used}`);
-  console.log(`   Time: ${(evaluation.metadata.evaluation_time_ms / 1000).toFixed(2)}s\n`);
+  console.error('✨ GPT Evaluation Complete!\n');
+  console.error(`📊 Statistics:`);
+  console.error(`   Total API Calls: ${evaluation.metadata.total_api_calls}`);
+  console.error(`   Total Tokens: ${evaluation.metadata.total_tokens_used}`);
+  console.error(`   Time: ${(evaluation.metadata.evaluation_time_ms / 1000).toFixed(2)}s\n`);
 
-  // Output JSON
+  // Output JSON (ONLY JSON to stdout)
   console.log(JSON.stringify(evaluation, null, 2));
 
   return evaluation;
