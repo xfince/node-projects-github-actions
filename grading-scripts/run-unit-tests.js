@@ -95,6 +95,10 @@ async function runUnitTests() {
 
     } catch (error) {
       console.error(`   ❌ Suite failed or error occurred`);
+      console.error(`   Error: ${error.message}`);
+      if (error.stderr) {
+        console.error(`   Stderr: ${error.stderr.toString().substring(0, 500)}`);
+      }
       
       // Try to parse error output for test results
       try {
