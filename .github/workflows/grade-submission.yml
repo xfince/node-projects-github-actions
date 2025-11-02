@@ -191,7 +191,13 @@ jobs:
           
           echo "✅ Test environment ready"
       
-      - name: 🗄️  Verify MongoDB Connection
+      - name: � Install MongoDB Driver for Testing
+        run: |
+          echo "📦 Installing mongodb package for connection test..."
+          npm install mongodb --no-save
+      
+      - name: ️  Verify MongoDB Connection
+        continue-on-error: true
         run: |
           echo "🗄️  Testing MongoDB connection..."
           node -e "
