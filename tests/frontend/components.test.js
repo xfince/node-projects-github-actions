@@ -680,4 +680,4 @@ describe('Frontend Component Tests', () => {
   }
 });
 
-module.exports = { testResults };
+// module.exports = { testResults };

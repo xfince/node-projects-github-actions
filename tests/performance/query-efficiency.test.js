@@ -538,4 +538,4 @@ describe('Performance & Optimization Tests', () => {
   }
 });
 
-module.exports = { testResults };
+// module.exports = { testResults };

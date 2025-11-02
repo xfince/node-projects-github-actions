@@ -483,5 +483,5 @@ describe('Backend API Endpoints Tests', () => {
   });
 });
 
-// Export results
-module.exports = { testResults };
+// Export results (not needed for Jest execution)
+// module.exports = { testResults };

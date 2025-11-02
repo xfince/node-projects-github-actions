@@ -540,4 +540,4 @@ describe('Git Version Control Tests', () => {
   }
 });
 
-module.exports = { testResults };
+// module.exports = { testResults };

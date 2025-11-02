@@ -640,4 +640,4 @@ describe('TypeScript & Student Testing Tests', () => {
   }
 });
 
-module.exports = { testResults };
+// module.exports = { testResults };

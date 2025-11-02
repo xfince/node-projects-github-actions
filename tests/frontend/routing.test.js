@@ -687,4 +687,4 @@ describe('Next.js Routing Tests', () => {
   }
 });
 
-module.exports = { testResults };
+// module.exports = { testResults };
